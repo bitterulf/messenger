@@ -4,7 +4,8 @@ var Primus = require('primus');
 
 var Socket = Primus.createSocket({
     plugin: {
-        'substream': require('substream')
+        'substream': require('substream'),
+        'emit': require('primus-emit')
     }
 });
 
@@ -24,10 +25,14 @@ const connect = function(token) {
         });
 
         client.write({token: token});
+
         client.on('data', function(data) {
             console.log(data.action);
         });
+
         client.write({action: 'doStuff'});
+
+        client.emit('click', 10, 20);
     });
 };
 

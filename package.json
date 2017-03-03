@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/bitterulf/messenger#readme",
   "dependencies": {
+    "primus-emit": "^1.0.0",
     "substream": "^0.2.0"
   }
 }

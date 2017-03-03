@@ -2,10 +2,14 @@
 
 var Primus = require('primus');
 
-var Socket = Primus.createSocket({});
+var Socket = Primus.createSocket({
+    plugin: {
+        'substream': require('substream')
+    }
+});
 
 const connect = function(token) {
-    var client = new Socket('http://localhost:8080?token='+token);
+    const client = new Socket('http://localhost:8080?token='+token);
 
     client.on('error', function (err) {
         // try to handle auth failed
@@ -13,6 +17,12 @@ const connect = function(token) {
     });
 
     client.on('open', function (server) {
+        const status = client.substream('status');
+
+        status.on('data', function(message) {
+            console.log('status message:', message);
+        });
+
         client.write({token: token});
         client.on('data', function(data) {
             console.log(data.action);

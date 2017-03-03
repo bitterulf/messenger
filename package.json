@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/bitterulf/messenger/issues"
   },
-  "homepage": "https://github.com/bitterulf/messenger#readme"
+  "homepage": "https://github.com/bitterulf/messenger#readme",
+  "dependencies": {
+    "substream": "^0.2.0"
+  }
 }

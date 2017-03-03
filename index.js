@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const unirest = require('unirest');
 const substream = require('substream');
 const emit = require('primus-emit');
+const rooms = require('primus-rooms');
 
 // need to be cleaned up
 const loggedInUsers = {
@@ -33,10 +34,18 @@ const primus = Primus.createServer(function connection(spark) {
 
     status.write('all is fine!');
 
+    const room = 'lobby';
+
+    spark.join(room, function () {
+        spark.write('you joined room ' + room);
+        spark.room(room).write('this is a broadcast');
+    });
+
 }, { port: 8080, transformer: 'websockets' });
 
 primus.plugin('substream', substream);
 primus.plugin('emit', emit);
+primus.plugin('rooms', rooms);
 
 primus.authorize(function (req, done) {
     unirest.get('http://accreditor.spielstand.net/publicKey')
